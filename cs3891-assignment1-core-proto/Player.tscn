@@ -9,9 +9,11 @@ points = PackedVector3Array(-0.125207, -0.532801, -0.480507, 0.0227831, 0.47607,
 
 [node name="Player" type="RigidBody3D"]
 lock_rotation = true
+linear_damp = 3.0
 script = ExtResource("1_u7df4")
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="."]
+layers = 16
 mesh = SubResource("CapsuleMesh_ajytx")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="."]
@@ -22,3 +24,5 @@ shape = SubResource("ConvexPolygonShape3D_n3v6o")
 [node name="PitchPivot" type="Node3D" parent="TwistPivot"]
 
 [node name="Camera3D" type="Camera3D" parent="TwistPivot/PitchPivot"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.580509, 0)
+cull_mask = 1048559

@@ -38,8 +38,8 @@ public partial class Player : RigidBody3D
 		pitchPivot.Rotation = pitchPivot.Rotation with {
 			X = Mathf.Clamp(
 			pitchPivot.Rotation.X,
-			Mathf.DegToRad(-30),
-			Mathf.DegToRad(30))
+			Mathf.DegToRad(-60),
+			Mathf.DegToRad(60))
 		};
 
 		twistInput = 0;

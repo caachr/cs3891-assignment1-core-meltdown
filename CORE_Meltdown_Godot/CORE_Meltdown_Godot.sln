@@ -1,6 +1,6 @@
-﻿Microsoft Visual Studio Solution File, Format Version 12.00
+Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 2012
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "cs3891-assignment1-core-proto", "cs3891-assignment1-core-proto.csproj", "{DC2C71A2-7C4F-4E54-846F-4A6BEB8C5C28}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "cs3891-assignment1-core-proto", "CORE_Meltdown_Godot.csproj", "{DC2C71A2-7C4F-4E54-846F-4A6BEB8C5C28}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

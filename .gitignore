@@ -16,3 +16,6 @@ mono_crash.*.json
 
 # MacOS artifacts ignores
 .DS_Store
+
+# F# ignores
+.fake

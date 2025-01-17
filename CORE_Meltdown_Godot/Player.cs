@@ -18,11 +18,15 @@ public partial class Player : RigidBody3D
 	private float pitchInput = 0.0f;
 	private Node3D twistPivot;
 	private Node3D pitchPivot;
+
+	// Interaction logic variables
+	private RayCast3D interactionRay;
 	
 	// Called when the node enters the scene tree for the first time.
 	public override void _Ready()
 	{
 		groundCheck = GetNode<RayCast3D>("GroundCheck");
+		interactionRay = GetNode<RayCast3D>("TwistPivot/PitchPivot/Camera3D/InteractionRay");
 
 		twistPivot = GetNode<Node3D>("TwistPivot");
 		pitchPivot = GetNode<Node3D>("TwistPivot/PitchPivot");
@@ -96,6 +100,24 @@ public partial class Player : RigidBody3D
 		}
 	}
 
+	public override void _Input(InputEvent @event)
+    {
+        if (@event.IsActionPressed("interact"))
+        {
+			GD.Print("Mouse clicked!");
+			if (interactionRay.IsColliding())
+            {
+				GD.Print("Collision detected!");
+                var collider = interactionRay.GetCollider();
+				GD.Print("Collided with: ", ((Node3D)collider).Name);
+                if (collider is StaticBody3D body && body.Name == "1levmountbody")
+                {
+					GD.Print("Interacting with lever!");
+					GetNode<LeverController>("/root/Main/World/Level 1/1_lev_mount").Toggle();
+                }
+            }
+        }
+    }
 
     public override void _UnhandledInput(InputEvent @event)
     {

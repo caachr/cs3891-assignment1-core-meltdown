@@ -25,6 +25,14 @@ window/size/mode=2
 
 project/assembly_name="cs3891-assignment1-core-proto"
 
+[editor_plugins]
+
+enabled=PackedStringArray("res://addons/instant-realistic-light/plugin.cfg")
+
+[global_group]
+
+Timers="Text for countdown timers"
+
 [input]
 
 move_forward={

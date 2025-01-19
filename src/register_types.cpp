@@ -15,12 +15,12 @@ void initialize_strobelight_module(ModuleInitializationLevel p_level) {
 	}
 
     // Debug
-    UtilityFunctions::print("Registering StrobeLight class...");
+    // UtilityFunctions::print("Registering StrobeLight class...");
 
     GDREGISTER_CLASS(StrobeLight);
 
     // Debug
-    UtilityFunctions::print("StrobeLight class registered.");
+    // UtilityFunctions::print("StrobeLight class registered.");
 }
 
 void uninitialize_strobelight_module(ModuleInitializationLevel p_level) {
@@ -29,7 +29,7 @@ void uninitialize_strobelight_module(ModuleInitializationLevel p_level) {
 	}
 
     // Debug
-    UtilityFunctions::print("Unregistering StrobeLight class.");
+    // UtilityFunctions::print("Unregistering StrobeLight class.");
 }
 
 extern "C" {

@@ -7,7 +7,8 @@
 using namespace godot;
 
 void StrobeLight::_bind_methods() {
-    UtilityFunctions::print("StrobeLight class binding");
+    // Debug
+    // UtilityFunctions::print("StrobeLight class binding");
 
     ClassDB::bind_method(D_METHOD("get_frequency"), &StrobeLight::get_frequency);
     ClassDB::bind_method(D_METHOD("set_frequency", "frequency"), &StrobeLight::set_frequency);
@@ -29,7 +30,8 @@ double StrobeLight::get_max_intensity() const { return maxIntensity; }
 void StrobeLight::set_max_intensity(const double val) { maxIntensity = val; }
 
 StrobeLight::StrobeLight() {
-    UtilityFunctions::print("StrobeLight constructor called");
+    // Debug
+    // UtilityFunctions::print("StrobeLight constructor called");
 
     frequency = 0.25;
     timeElapsed = 0.0;
@@ -39,7 +41,8 @@ StrobeLight::StrobeLight() {
 }
 
 StrobeLight::~StrobeLight() {
-    UtilityFunctions::print("StrobeLight destructor called");
+    // Debug
+    // UtilityFunctions::print("StrobeLight destructor called");
 }
 
 void StrobeLight::_ready() {
@@ -61,7 +64,9 @@ void StrobeLight::_physics_process(double delta) {
     // Set the light's intensity
     if (light) {
         light->set_param(Light3D::PARAM_ENERGY, intensity);
-        UtilityFunctions::print("Output intensity: ", light->get_param(Light3D::PARAM_ENERGY));
+        
+        // Debug
+        // UtilityFunctions::print("Output intensity: ", light->get_param(Light3D::PARAM_ENERGY));
     } else {
         UtilityFunctions::print("Mesh is not a Light3D!");
     }

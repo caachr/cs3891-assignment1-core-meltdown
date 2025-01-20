@@ -20,10 +20,13 @@ public partial class KeypadManager : Node3D
     // Stores the current digits registered in the keypad.
     private int[] digits;
 
+    private AudioManager audioManager;
+
     // Ready is called when the node enters the scene tree for the first time.
     public override void _Ready()
     {
-        
+        audioManager = GetNode<AudioManager>("/root/Main/AudioManager");
+
         buttons = new KeypadButton[8];
         int i = 0;
         foreach(var button in GetTree().GetNodesInGroup("Keypad Buttons"))
@@ -50,6 +53,7 @@ public partial class KeypadManager : Node3D
             solved = true;
             lockAllButtons();
             lever.locked = false;
+            audioManager.PlayKeypadSolvedSFX(GlobalPosition);
         }
     }
 

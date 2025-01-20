@@ -12,11 +12,18 @@ public partial class KeypadButton : Interactable
     // Indicates whether this is an 'up' button or a 'down' button.
     [Export] private bool isUpButton;
 
+    // Called when the node enters the scene tree for the first time.
+    public override void _Ready()
+    {
+        audioManager = GetNode<AudioManager>("/root/Main/AudioManager");
+    }
+
     // Called when the button is pressed.
     public void Press()
     {
         if (!locked)
         {
+            audioManager.PlayKeypadSFX(GlobalPosition);
             if (isUpButton) 
             {
                 keypad.increaseDigit(digitIndex);
@@ -24,6 +31,9 @@ public partial class KeypadButton : Interactable
             else {
                 keypad.decreaseDigit(digitIndex);
             }
+        }
+        else {
+            PlayLockedSFX();
         }
     }
 }

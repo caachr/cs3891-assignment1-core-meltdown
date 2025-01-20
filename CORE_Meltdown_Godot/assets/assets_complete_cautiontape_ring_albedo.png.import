@@ -3,7 +3,7 @@
 importer="texture"
 type="CompressedTexture2D"
 uid="uid://b86m3chvmjupq"
-path.s3tc="res://.godot/imported/assets_complete_cautiontape_ring_albedo.png-49c17b2b32c7c8fdbad74d2aeb08671f.s3tc.ctex"
+path.s3tc="res://.godot/imported/assets_complete_cautiontape_ring_albedo.png-d908679421d9265dd5c738a638be998d.s3tc.ctex"
 metadata={
 "imported_formats": ["s3tc_bptc"],
 "vram_texture": true
@@ -14,8 +14,8 @@ generator_parameters={
 
 [deps]
 
-source_file="res://assets/assets_complete_cautiontape_ring_albedo.png"
-dest_files=["res://.godot/imported/assets_complete_cautiontape_ring_albedo.png-49c17b2b32c7c8fdbad74d2aeb08671f.s3tc.ctex"]
+source_file="res://Assets/assets_complete_cautiontape_ring_albedo.png"
+dest_files=["res://.godot/imported/assets_complete_cautiontape_ring_albedo.png-d908679421d9265dd5c738a638be998d.s3tc.ctex"]
 
 [params]
 

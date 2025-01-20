@@ -12,6 +12,7 @@ public partial class Lever : Interactable
     public override void _Ready()
     {
         activated = false;
+		audioManager = GetNode<AudioManager>("/root/Main/AudioManager");
     }
 
     // Called when the lever is toggled on or off.
@@ -19,9 +20,22 @@ public partial class Lever : Interactable
 	{
 		if (!locked)
 		{
+			// If the lever is currently activated (down position), it will now go up, so play the lever up sfx.
+			// Otherwise, play the lever down sfx.
+			if (activated)
+			{
+				audioManager.PlayLeverUpSFX(GlobalPosition);
+			}
+			else {
+				audioManager.PlayLeverDownSFX(GlobalPosition);
+			}
+
 			activated = !activated;
 			var tween = CreateTween();
 			tween.TweenProperty(handleMesh, "rotation", new Vector3(0, activated ? Mathf.DegToRad(-60) : Mathf.DegToRad(60), 0), 0.5f);
+		}
+		else {
+			PlayLockedSFX();
 		}
 	}
 }

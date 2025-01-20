@@ -27,12 +27,13 @@ project/assembly_name="cs3891-assignment1-core-proto"
 
 [editor_plugins]
 
-enabled=PackedStringArray("res://addons/instant-realistic-light/plugin.cfg")
+enabled=PackedStringArray()
 
 [global_group]
 
 Timers="Text for countdown timers"
 "Keypad Buttons"="Buttons for the keypad in level 5."
+Levers="All the levers in the scene."
 
 [input]
 

@@ -23,6 +23,10 @@ public partial class GameManager : Node
 
     // Timer logic
     private Timer timer;
+    int lastSecond = -1; // For audio timing purposes
+
+    // Audio manager instance
+    private AudioManager audioManager;
 
     public override void _Ready()
     {
@@ -30,7 +34,7 @@ public partial class GameManager : Node
         Instance = this;
 
         // How long player has to complete game
-        timeLimit = 60f;
+        timeLimit = 300f;
 
         // Game state
         gameWin = false;
@@ -45,10 +49,13 @@ public partial class GameManager : Node
         // Initialize UI
         gameWinText.Visible = false;
         gameLoseText.Visible = false;
-        foreach (Node3D hint in hints)
-        {
-            hint.Visible = false;
-        }
+        // foreach (Node3D hint in hints)
+        // {
+        //     hint.Visible = false;
+        // }
+
+        // Initialize audio manager instance
+        audioManager = GetNode<AudioManager>("/root/Main/AudioManager");
     }
 
     public override void _Process(double delta)
@@ -56,16 +63,17 @@ public partial class GameManager : Node
         if (!gameEnd)
         {
             UpdateTimerDisplays();
-            if (timer.TimeLeft - 540f < 1)
+            // if (timer.TimeLeft - 240f < 1)
+            // {
+            //     hints[0].Visible = true;
+            // }
+            // if (timer.TimeLeft - 220f < 1)
+            // {
+            //     hints[1].Visible = true;
+            // }
+            if (timer.TimeLeft - 0f <= 0.01)
             {
-                hints[0].Visible = true;
-            }
-            if (timer.TimeLeft - 510f < 1)
-            {
-                hints[1].Visible = true;
-            }
-            if (timer.IsStopped())
-            {
+                timer.Stop();
                 gameEnd = true;
                 gameWin = false;
                 GameLose();
@@ -88,6 +96,13 @@ public partial class GameManager : Node
         var centiseconds = Mathf.Floor((timeRemaining % 1) * 100);
         var timeString = $"{minutes:00}:{seconds:00}.{centiseconds:00}";
 
+        if (Mathf.Floor(timeRemaining) != lastSecond)
+        {
+            lastSecond = (int)Mathf.Floor(timeRemaining);
+            var playerPosition = GetNode<Node3D>("/root/Main/Player").GlobalPosition;
+            audioManager.PlayTimerTickSFX(playerPosition);
+        }
+
         foreach (MeshInstance3D display in GetTree().GetNodesInGroup("Timers"))
         {
             if (display != null)
@@ -109,6 +124,12 @@ public partial class GameManager : Node
     private void GameLose()
     {
         gameLoseText.Visible = true;
+
+        // Lock all levers.
+        foreach(Lever lever in GetTree().GetNodesInGroup("Levers"))
+        {
+            lever.locked = true;
+        }
     }
 
     public override void _Input(InputEvent @event)

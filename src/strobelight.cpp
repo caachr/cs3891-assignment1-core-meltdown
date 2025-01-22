@@ -7,9 +7,6 @@
 using namespace godot;
 
 void StrobeLight::_bind_methods() {
-    // Debug
-    // UtilityFunctions::print("StrobeLight class binding");
-
     ClassDB::bind_method(D_METHOD("get_frequency"), &StrobeLight::get_frequency);
     ClassDB::bind_method(D_METHOD("set_frequency", "frequency"), &StrobeLight::set_frequency);
     ClassDB::bind_method(D_METHOD("get_min_intensity"), &StrobeLight::get_min_intensity);
@@ -30,9 +27,6 @@ double StrobeLight::get_max_intensity() const { return maxIntensity; }
 void StrobeLight::set_max_intensity(const double val) { maxIntensity = val; }
 
 StrobeLight::StrobeLight() {
-    // Debug
-    // UtilityFunctions::print("StrobeLight constructor called");
-
     frequency = 0.25;
     timeElapsed = 0.0;
     minIntensity = 0.0;
@@ -41,13 +35,12 @@ StrobeLight::StrobeLight() {
 }
 
 StrobeLight::~StrobeLight() {
-    // Debug
-    // UtilityFunctions::print("StrobeLight destructor called");
 }
 
 void StrobeLight::_ready() {
     // Cast the node to Light3D
     light = Object::cast_to<Light3D>(get_node_or_null("AlarmStrobe"));
+
     if (!light) {
         UtilityFunctions::print("AlarmStrobe is not a Light3D!");
         return;
@@ -55,19 +48,18 @@ void StrobeLight::_ready() {
 }
 
 void StrobeLight::_physics_process(double delta) {
-    // Update the elapsed time
+    // Update the overall elapsed time
     timeElapsed += delta;
 
-    // Calculate the intensity using a sine wave
+    // Calculate the light's current intensity
     double intensity = minIntensity + (maxIntensity - minIntensity) * 0.5 * (1.0 + std::sin(2.0 * Math_PI * frequency * timeElapsed));
 
-    // Set the light's intensity
-    if (light) {
+    // Set the light's current intensity
+    if (light)
+    {
         light->set_param(Light3D::PARAM_ENERGY, intensity);
-        
-        // Debug
-        // UtilityFunctions::print("Output intensity: ", light->get_param(Light3D::PARAM_ENERGY));
-    } else {
+    } 
+    else {
         UtilityFunctions::print("Mesh is not a Light3D!");
     }
 }

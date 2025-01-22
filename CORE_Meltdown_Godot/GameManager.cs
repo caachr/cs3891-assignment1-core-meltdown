@@ -1,17 +1,29 @@
 using Godot;
 using System;
 
-// GameManager singleton
+/// <summary>
+/// Manages the game state at the highest level, including win/lose state, UI, and actions like quitting and restarting the game.
+/// </summary>
 public partial class GameManager : Node
 {
-    // Singleton access logic
+    /// <summary>
+    /// GameManager singleton instance
+    /// </summary>
     public static GameManager Instance { get; private set;}
 
-    // How long the player has to complete the game, in seconds
+    /// <summary>
+    /// How long the player has to complete the game, in seconds
+    /// </summary>
     public float timeLimit;
     
-    // Game state
+    /// <summary>
+    /// Game win status
+    /// </summary>
     public bool gameWin;
+
+    /// <summary>
+    /// Game end status
+    /// </summary>
     private bool gameEnd;
 
     // In-game UI
@@ -21,18 +33,22 @@ public partial class GameManager : Node
     [Export] private Node3D gameLoseText;
     [Export] private Node3D[] hints;
 
-    // Timer logic
+    /// <summary>
+    /// Timer instance
+    /// </summary>
     private Timer timer;
     
-    // Audio manager instance
+    /// <summary>
+    /// Audio manager instance
+    /// </summary>
     private AudioManager audioManager;
 
     // Audio timing logic
-    int lastSecond = -1;
-    bool minute4Played;
-    bool minute3Played;
-    bool minute2Played;
-    bool minute1Played;
+    private int lastSecond = -1;
+    private bool minute4Played;
+    private bool minute3Played;
+    private bool minute2Played;
+    private bool minute1Played;
 
     public override void _Ready()
     {
@@ -56,10 +72,6 @@ public partial class GameManager : Node
         // Initialize UI
         gameWinText.Visible = false;
         gameLoseText.Visible = false;
-        // foreach (Node3D hint in hints)
-        // {
-        //     hint.Visible = false;
-        // }
 
         // Initialize audio manager instance
         audioManager = GetNode<AudioManager>("/root/Main/AudioManager");
@@ -72,17 +84,12 @@ public partial class GameManager : Node
 
     public override void _Process(double delta)
     {
+        // Only check logic if the game has not yet ended.
         if (!gameEnd)
         {
             UpdateTimerDisplays();
-            // if (timer.TimeLeft - 240f < 1)
-            // {
-            //     hints[0].Visible = true;
-            // }
-            // if (timer.TimeLeft - 220f < 1)
-            // {
-            //     hints[1].Visible = true;
-            // }
+
+            // Check if the game has been won or lost; if so, perform the appropriate game end events.
             if (timer.IsStopped())
             {
                 gameEnd = true;
@@ -98,43 +105,51 @@ public partial class GameManager : Node
         }
     }
 
-    // Update timer text on each floor
+    /// <summary>
+    /// Update timer text on each floor
+    /// </summary>
     private void UpdateTimerDisplays()
     {
+        // Deconstruct the time remaining into minutes, seconds, and centiseconds.
         var timeRemaining = timer.TimeLeft;
         var minutes = Mathf.Floor(timeRemaining / 60);
         var seconds = Mathf.Floor(timeRemaining % 60);
         var centiseconds = Mathf.Floor((timeRemaining % 1) * 100);
+
+        // Format the time remaining as minutes, seconds, and centiseconds. E.g. 09:59.97
         var timeString = $"{minutes:00}:{seconds:00}.{centiseconds:00}";
 
+        // Play a tick sound at each second.
         if (Mathf.Floor(timeRemaining) != lastSecond)
         {
             lastSecond = (int)Mathf.Floor(timeRemaining);
             var playerPosition = GetNode<Node3D>("/root/Main/Player").GlobalPosition;
-            audioManager.PlayTimerTickSFX(playerPosition);
+            audioManager.Play("Tick", playerPosition);
         }
-
+        
+        // Play a sound effect when the number of minutes left changes.
         if (timeRemaining <= 240 && !minute4Played)
         {
             minute4Played = true;
-            audioManager.PlayMinute4SFX(GetNode<Node3D>("/root/Main/Player").GlobalPosition);
+            audioManager.Play("Minute4", GetNode<Node3D>("/root/Main/Player").GlobalPosition);
         }
         if (timeRemaining <= 180 && !minute3Played)
         {
             minute3Played = true;
-            audioManager.PlayMinute3SFX(GetNode<Node3D>("/root/Main/Player").GlobalPosition);
+            audioManager.Play("Minute3", GetNode<Node3D>("/root/Main/Player").GlobalPosition);
         }
         if (timeRemaining <= 120 && !minute2Played)
         {
             minute2Played = true;
-            audioManager.PlayMinute2SFX(GetNode<Node3D>("/root/Main/Player").GlobalPosition);
+            audioManager.Play("Minute2", GetNode<Node3D>("/root/Main/Player").GlobalPosition);
         }
         if (timeRemaining <= 60 && !minute1Played)
         {
             minute1Played = true;
-            audioManager.PlayMinute1SFX(GetNode<Node3D>("/root/Main/Player").GlobalPosition);
+            audioManager.Play("Minute1", GetNode<Node3D>("/root/Main/Player").GlobalPosition);
         }
 
+        // Update the digit displays.
         foreach (MeshInstance3D display in GetTree().GetNodesInGroup("Timers"))
         {
             if (display != null)
@@ -145,18 +160,27 @@ public partial class GameManager : Node
         }
     }
 
+    /// <summary>
+    /// Perform events corresponding to a game win.
+    /// </summary>
     private void GameWin()
     {
+        // Pause the timer and show relevant UI text.
         timer.Paused = true;
         reactorUnstableText.Visible = false;
         reactorStableText.Visible = true;
         gameWinText.Visible = true;
 
-        audioManager.PlayWinSFX(reactorStableText.GlobalPosition);
+        // Play SFX
+        audioManager.Play("Win", reactorStableText.GlobalPosition);
     }
 
+    /// <summary>
+    /// Perform events corresponding to a game loss.
+    /// </summary>
     private void GameLose()
     {
+        // Show in-game UI.
         gameLoseText.Visible = true;
 
         // Lock all levers.
@@ -164,19 +188,24 @@ public partial class GameManager : Node
         {
             lever.locked = true;
         }
-        audioManager.PlayTimeOutSFX(GetNode<Node3D>("/root/Main/Player").GlobalPosition);
+        
+        // Play lose sound.
+        audioManager.Play("TimeOut", GetNode<Node3D>("/root/Main/Player").GlobalPosition);
     }
 
     public override void _Input(InputEvent @event)
     {
+        // Restart the game.
         if (@event.IsActionPressed("restart"))
         {
             GetTree().ReloadCurrentScene();
         }
 
+        // Quit the game.
 		if (@event.IsActionPressed("ui_cancel"))
 		{
-			GetTree().Quit();
+			audioManager.CleanUpAllPlayers();
+            GetTree().Quit();
 		}
     }
 }

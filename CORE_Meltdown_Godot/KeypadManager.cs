@@ -3,23 +3,39 @@ using System;
 using System.Globalization;
 using System.Linq;
 
+/// <summary>
+/// Manages logic for the keypad puzzle and its buttons.
+/// </summary>
 public partial class KeypadManager : Node3D
 {
-	// Lever to unlock upon solution being reached.
+	/// <summary>
+    /// Lever to unlock upon solution being reached.
+    /// </summary>
     [Export] private Lever lever;
 
-    // Individual digit displays.
+    /// <summary>
+    /// Individual digit displays.
+    /// </summary>
     [Export] private MeshInstance3D[] digitDisplays;
 
-    // Keypad buttons (for locking purposes).
+    /// <summary>
+    /// Keypad buttons (for locking purposes).
+    /// </summary>
     private KeypadButton[] buttons;
 
-    // Indicates whether or not the keypad puzzle has been solved.
+    /// <summary>
+    /// Indicates whether or not the keypad puzzle has been solved.
+    /// </summary>
     private bool solved;
 
-    // Stores the current digits registered in the keypad.
+    /// <summary>
+    /// Stores the current digits registered in the keypad.
+    /// </summary>
     private int[] digits;
 
+    /// <summary>
+    /// Audio manager instance.
+    /// </summary>
     private AudioManager audioManager;
 
     // Ready is called when the node enters the scene tree for the first time.
@@ -53,11 +69,13 @@ public partial class KeypadManager : Node3D
             solved = true;
             lockAllButtons();
             lever.locked = false;
-            audioManager.PlayKeypadSolvedSFX(GlobalPosition);
+            audioManager.Play("KeypadSolved", GlobalPosition);
         }
     }
 
-    // Locks the keypad by locking all its buttons.
+    /// <summary>
+    /// Locks the keypad by locking all its buttons.
+    /// </summary>
     private void lockAllButtons()
     {
         foreach (Interactable button in buttons)
@@ -66,21 +84,30 @@ public partial class KeypadManager : Node3D
         }
     }
 
-    // Increases by 1 the digit at the specified index.
+    /// <summary>
+    /// Increases by 1 the digit at the specified index.
+    /// </summary>
+    /// <param name="digitIdx">The index of the digit being increased.</param>
     public void increaseDigit(int digitIdx)
     {
         digits[digitIdx] = digits[digitIdx] >= 8 ? 0 : digits[digitIdx] + 1;
         updateDisplay(digitIdx);
     }
 
-    // Decreases by 1 the digit at the specified index.
+    /// <summary>
+    /// Decreases by 1 the digit at the specified index.
+    /// </summary>
+    /// <param name="digitIdx">The index of the digit being decreased.</param>
     public void decreaseDigit(int digitIdx)
     {
         digits[digitIdx] = digits[digitIdx] <= 0 ? 8 : digits[digitIdx] - 1;
         updateDisplay(digitIdx);
     }
 
-    // Updates the in-game display with the changed digit.
+    /// <summary>
+    /// Updates the in-game display with the changed digit.
+    /// </summary>
+    /// <param name="digitIdx">The index of the digit being updated.</param>
     private void updateDisplay(int digitIdx)
     {
         TextMesh mesh = (TextMesh)digitDisplays[digitIdx].Mesh;

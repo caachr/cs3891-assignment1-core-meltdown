@@ -1,24 +1,31 @@
 using Godot;
 using System;
 
-public partial class Interactable : Node3D
+/// <summary>
+/// Abstract class for objects intended to be interacted with by the user.
+/// </summary>
+public abstract partial class Interactable : Node3D
 {
-    // Audio player instance
+    /// <summary>
+    /// Audio manager instance
+    /// </summary>
     protected AudioManager audioManager;
 
-    // Control whether or not this object can currently be interacted with.
+    /// <summary>
+    /// Control whether or not interaction with this object is currently prohibited.
+    /// </summary>
     public bool locked;
 
-    public override void _Ready()
-    {
-        // NOTE: If the Interactable script itself is not in the scene tree, this code has no effect!
-        // The _Ready() function is only called if the node itself is in the scene tree, NOT its derived classes!
-        audioManager = GetNode<AudioManager>("/root/Main/AudioManager");
-        locked = false;
-    }
+    /// <summary>
+    /// Must initialize audio manager and initial locked status.
+    /// </summary>
+    public abstract override void _Ready();
 
+    /// <summary>
+    /// Play the corresponding sound when interaction is attempted but currently locked.
+    /// </summary>
     protected void PlayLockedSFX()
     {
-        audioManager.PlayLockedSFX(GlobalPosition);
+        audioManager.Play("Locked", GlobalPosition);
     }
 }

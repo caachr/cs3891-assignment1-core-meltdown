@@ -12,12 +12,11 @@ namespace godot{
     GDCLASS(StrobeLight, Node3D)
 
     private:
-        double frequency;
-        double timeElapsed;
-        double minIntensity;
-        double maxIntensity;
-        Ref<StandardMaterial3D> material;
-        Light3D* light;
+        double frequency;       // The strobe's frequency of oscillation regarding the dimming and brightening cycle.
+        double timeElapsed;     // The overall time elapsed since the start of _physics_process.
+        double minIntensity;    // The intensity of light at the trough of the strobe's oscillation.
+        double maxIntensity;    // The intensity of light at the peak of the strobe's oscillation.
+        Light3D* light;         // The light node that will perform the strobe effect.
 
     protected:
         static void _bind_methods();
@@ -29,12 +28,22 @@ namespace godot{
         void _ready() override;
         void _physics_process(double delta) override;
         
+        // Getter for the frequency of oscillation.
         double get_frequency() const;
+
+        // Setter for the frequency of oscillation.
         void set_frequency(const double newFreq);
 
+        // Getter for the minimum intensity.
         double get_min_intensity() const;
+
+        // Setter for the minimum intensity.
         void set_min_intensity(const double val);
+
+        // Getter for the maximum intensity.
         double get_max_intensity() const;
+
+        // Setter for the maximum intensity.
         void set_max_intensity(const double val);
     };
 }

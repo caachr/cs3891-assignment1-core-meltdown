@@ -1,5 +1,7 @@
 # CORE Meltdown
 
+![Picture of level 1 of the game.](gameplay_thumbnail.png)
+
 Author: Christian Caamano
 
 Email: christian.d.caamano@vanderbilt.edu

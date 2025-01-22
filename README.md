@@ -4,8 +4,6 @@ Author: Christian Caamano
 
 Email: christian.d.caamano@vanderbilt.edu
 
-VUNetID: caamancd
-
 Class: CS 3981 - Game Engine Design
 
 Instructor: Bobby Bodenheimer

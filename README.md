@@ -1,11 +1,17 @@
 # CORE Meltdown
 
 Author: Christian Caamano
+
 Email: christian.d.caamano@vanderbilt.edu
+
 VUNetID: caamancd
+
 Class: CS 3981 - Game Engine Design
+
 Instructor: Bobby Bodenheimer
 
+
+#### Link to gameplay video: https://youtu.be/s8OxcYGYbXU
 
 Game Name: CORE Meltdown
 
@@ -66,9 +72,14 @@ See points 1 and 3-6 above for descriptions of the sound effects used in this ga
 
 Compilation instructions are for MacOS devices.
 
-Go to the following link to download the Mac executable (the file is too large to be stored on GitHub): [text](https://www.dropbox.com/scl/fi/ryof4tmkqzv22xacqpk5w/CORE_Meltdown.dmg?rlkey=2dm7rqly9pdowd7ypvcfy31qt&st=skkhmw5i&dl=0)
+Go to the following link to download the Mac executable (the file is too large to be stored on GitHub): [CORE_Meltdown.dmg](https://www.dropbox.com/scl/fi/ryof4tmkqzv22xacqpk5w/CORE_Meltdown.dmg?rlkey=2dm7rqly9pdowd7ypvcfy31qt&st=skkhmw5i&dl=0)
 
 Go to your downloads folder on your computer and double click the file to open. Now double-click the Godot icon named 'CORE_Meltdown' and the game will run. If you see a notification by Mac's Gatekeeper preventing the game from running, attempt the following:
 1. Close out of the security notification, then right click the Godot icon and select 'Open'. If this does not work, go to the next step.
 2. Go to System Settings -> Privacy & Security -> Accessibility and toggle the slider 'on' next to the CORE Meltdown application. If you do not see it listed under Accessibility, it may be listed in a different section of Privacy & Security.
 3. If none of this works, email 'christian.d.caamano@vanderbilt.edu' for help.
+
+
+## Additional Documentation
+
+See folder 'docs' for development screenshots.
